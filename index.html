@@ -8,39 +8,39 @@
     <script src="main.js"></script>
     <title>Calculator</title>
 </head>
-<body>
+<body onload="loadFunction()">
     <div class="container">
         <div class="calc-body">
             <div class="screen" id="screen">
-                SCREEN
+                0
             </div>
             <div class="btn-row1">
                 <button id="clear" onclick="clearScreen()">CLEAR</button>
                 <button id="del" onclick="delChar()">DEL</button>
             </div>
             <div class="btn-row2">
-                <button id="7" onclick="numberPress()">7</button>
-                <button id="8" onclick="numberPress()">8</button>
-                <button id="9" onclick="numberPress()">9</button>
-                <button id="add" onclick="operatorPress()">+</button>
+                <button id="7">7</button>
+                <button id="8">8</button>
+                <button id="9">9</button>
+                <button id="add">+</button>
             </div>
             <div class="btn-row2">
-                <button id="4" onclick="numberPress()">4</button>
-                <button id="5" onclick="numberPress()">5</button>
-                <button id="6" onclick="numberPress()">6</button>
-                <button id="sub" onclick="operatorPress()">-</button>
+                <button id="4">4</button>
+                <button id="5">5</button>
+                <button id="6">6</button>
+                <button id="sub">-</button>
             </div>
             <div class="btn-row2">
-                <button id="1" onclick="numberPress()">1</button>
-                <button id="2" onclick="numberPress()">2</button>
-                <button id="3" onclick="numberPress()">3</button>
-                <button id="mult" onclick="operatorPress()">*</button>
+                <button id="1">1</button>
+                <button id="2">2</button>
+                <button id="3">3</button>
+                <button id="mult">*</button>
             </div>
             <div class="btn-row2">
-                <button id="decimal" onclick="decimalPress()">.</button>
-                <button id="0" onclick="numberPress()">0</button>
-                <button id="equals" onclick="equalPress()">=</button>
-                <button id="divide" onclick="operatorPress()">÷</button>
+                <button id="decimal">.</button>
+                <button id="0">0</button>
+                <button id="equals">=</button>
+                <button id="divide">÷</button>
             </div>
         </div>
     </div>
