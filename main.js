@@ -2,6 +2,8 @@ let values = [];
 values[0]=0;
 values[1]=0;
 values[2]='';
+let hasDecimal  = false;
+let numDec = 0;
 
 function loadFunction()
 {
@@ -50,6 +52,9 @@ function loadFunction()
     document.getElementById('equals').addEventListener('click', function() {
         equalPress();
     });
+    document.getElementById('decimal').addEventListener('click', function() {
+        decimalPress();
+    });
     document.addEventListener('keypress', function(e) {
         //console.log(e);
         keyPress(e.keyCode);
@@ -93,6 +98,10 @@ function keyPress(x)
     {
         equalPress();
     }
+    else if(x==46)
+    {
+        decimalPress();
+    }
 }
 
 function clearScreen()
@@ -102,12 +111,31 @@ function clearScreen()
     values[0] = 0;    
     document.getElementById('calculation').textContent = ' ';
     values[2] = '';
+    hasDecimal = false;
+    numDec = 0;
 }
 
 function delChar() {
     //delete right most character from screen
     let curVal = values[0];
-    if(curVal>=10)
+    if(hasDecimal)
+    {
+        if(numDec>1)
+        {
+            console.log(curVal);
+            curVal = parseInt((curVal*(10**(numDec-1))))/(10.0**(numDec-1));
+            numDec--;
+        }
+        else
+        {
+            curVal = parseInt(curVal);
+            numDec--;
+            hasDecimal = false;
+            document.getElementById('val-screen').textContent = 
+            document.getElementById('val-screen').textContent.slice(0,-1);
+        }
+    }
+    else if(curVal>=10)
     {
         curVal = parseInt(curVal/10);
     }
@@ -124,9 +152,23 @@ function numberPress(x)
 {
     //place number on the screen and increment current values
     let curVal = values[0];
-    curVal = curVal*10 + parseInt(x);
-    document.getElementById('val-screen').textContent = curVal;
-    values[0]=curVal;
+    if(!hasDecimal)
+    {
+        curVal = curVal*10 + parseInt(x);
+        document.getElementById('val-screen').textContent = curVal;
+        values[0]=curVal;
+    }
+    else
+    {
+        curVal = curVal*(10**(numDec+1));
+        curVal = Math.round(curVal + parseInt(x));
+        curVal = curVal/(10.0**(numDec+1));
+
+        numDec++;
+        document.getElementById('val-screen').textContent = curVal;
+        values[0]=curVal;
+    }
+
 }
 
 function operatorPress(x) 
@@ -140,6 +182,8 @@ function operatorPress(x)
         values[1] = values[0];
         values[2] = x;
         values[0] = 0;
+        hasDecimal = false
+        numDec = 0;
     }
 
     else {
@@ -147,6 +191,8 @@ function operatorPress(x)
         values[1] = res;
         values[2] = x;
         values[0] = 0;
+        hasDecimal = false
+        numDec = 0;
         document.getElementById('val-screen').textContent = res;
     }
     
@@ -157,6 +203,27 @@ function operatorPress(x)
 function decimalPress()
 {
     //used for decimal press
+    if(!hasDecimal)
+    {
+        if(values[0]>0)
+        {
+            curVal = values[0].toFixed(numDec);
+            console.log(curVal);
+            values[0] = curVal;
+            document.getElementById('val-screen').textContent += ".";
+            hasDecimal = true;
+        }
+
+        else {
+            hasDecimal = true;
+            document.getElementById('val-screen').textContent += ".";
+        }
+    }
+
+    else
+    {
+
+    }
 }
 
 function getResult()
@@ -185,7 +252,7 @@ function getResult()
             result = values[1]/values[0];
         }
     }
-    return result;
+    return parseFloat(result.toFixed(10));
 }
 
 function equalPress()
