@@ -50,8 +50,50 @@ function loadFunction()
     document.getElementById('equals').addEventListener('click', function() {
         equalPress();
     });
+    document.addEventListener('keypress', function(e) {
+        //console.log(e);
+        keyPress(e.keyCode);
+    })
+    document.addEventListener('keydown', function(e) {
+        console.log(e);
+        if(e.keyCode==27 || e.keyCode==46)
+        {
+            clearScreen();
+        }
+        if(e.keyCode==8)
+        {
+            delChar();
+        }
+    });
 }
 
+function keyPress(x)
+{
+    if(x>=48 && x<=57)
+    {
+        numberPress(x-48);
+    }
+    else if(x==43)
+    {
+        operatorPress('+');
+    }
+    else if(x==45)
+    {
+        operatorPress('-');
+    }
+    else if(x==42)
+    {
+        operatorPress('*');
+    }
+    else if(x==47)
+    {
+        operatorPress('÷');
+    }
+    else if(x==13)
+    {
+        equalPress();
+    }
+}
 
 function clearScreen()
 {
