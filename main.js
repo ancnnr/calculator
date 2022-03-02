@@ -1,10 +1,10 @@
-let values = [];
-values[0]=0;
-values[1]=0;
-values[2]='';
+
+//Set up primary variables
+let values = [0, 0, ''];
 let hasDecimal  = false;
 let numDec = 0;
 
+//create action listeners
 function loadFunction()
 {
     document.getElementById('9').addEventListener('click', function() {
@@ -56,11 +56,9 @@ function loadFunction()
         decimalPress();
     });
     document.addEventListener('keypress', function(e) {
-        //console.log(e);
         keyPress(e.keyCode);
     })
     document.addEventListener('keydown', function(e) {
-        console.log(e);
         if(e.keyCode==27 || e.keyCode==46)
         {
             clearScreen();
@@ -72,6 +70,7 @@ function loadFunction()
     });
 }
 
+//deal with keypresses by translating keycode into numerical value
 function keyPress(x)
 {
     if(x>=48 && x<=57)
@@ -104,9 +103,9 @@ function keyPress(x)
     }
 }
 
+//clears the screen and resets all necessary values
 function clearScreen()
 {
-    //clears the screen
     document.getElementById('val-screen').textContent = 0;
     values[0] = 0;    
     document.getElementById('calculation').textContent = ' ';
@@ -115,14 +114,14 @@ function clearScreen()
     numDec = 0;
 }
 
-function delChar() {
-    //delete right most character from screen
+//delete right most character from screen (if it's last decimal value also remove decimal symbol)
+function delChar() 
+{
     let curVal = values[0];
     if(hasDecimal)
     {
         if(numDec>1)
         {
-            console.log(curVal);
             curVal = parseInt((curVal*(10**(numDec-1))))/(10.0**(numDec-1));
             numDec--;
         }
@@ -148,9 +147,9 @@ function delChar() {
     values[0] = curVal;
 }
 
+//place number on the screen and increment current values
 function numberPress(x)
 {
-    //place number on the screen and increment current values
     let curVal = values[0];
     if(!hasDecimal)
     {
@@ -171,12 +170,9 @@ function numberPress(x)
 
 }
 
+//deal with operator press if it's first or chained operator
 function operatorPress(x) 
 {
-    //used for each operator press
-    //darken button
-    //store values[0] in values array [1] (backup curVal)
-    //store operation in values[2] and clear screen
     if(values[2]=='')
     {
         values[1] = values[0];
@@ -200,15 +196,14 @@ function operatorPress(x)
 
 }
 
+//deal with decimal press by toggling necessary values and adding the "." to the screen.
 function decimalPress()
 {
-    //used for decimal press
     if(!hasDecimal)
     {
         if(values[0]>0)
         {
             curVal = values[0].toFixed(numDec);
-            console.log(curVal);
             values[0] = curVal;
             document.getElementById('val-screen').textContent += ".";
             hasDecimal = true;
@@ -226,6 +221,7 @@ function decimalPress()
     }
 }
 
+//does the actual calculation of values and limits to screen size of 10 decimal values.
 function getResult()
 {
     let result;
@@ -255,9 +251,9 @@ function getResult()
     return parseFloat(result.toFixed(10));
 }
 
+//deal with the press of equals by finalizing a calculation.
 function equalPress()
 {
-    //used for when the equal sign is pressed
     let result = getResult();
 
     const upper = document.getElementById('calculation').textContent;
